@@ -1,0 +1,74 @@
+.superlist {
+    padding-left: 0;
+    margin-left: -30px;
+    margin-top: 10px;
+}
+
+.superlist input {
+    border: none;
+    box-shadow: none;
+    width: 95%;
+    padding: 4px;
+    font-weight: normal;
+}
+
+.superlist input:focus {
+    outline: none;
+}
+
+.superlist-item-wrapper {
+    padding-left: 47px;
+}
+
+.superlist li {
+    position: relative;
+    font-weight: bold;
+}
+
+.superlist-item-wrapper:hover .reorder-list-item,
+.superlist-item-wrapper:hover .remove-list-item {
+    display: block;
+}
+
+.superlist-item-wrapper:hover li {
+    list-style: none;
+}
+
+.remove-list-item,
+.reorder-list-item {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+}
+
+.remove-list-item {
+    left: -40px;
+    cursor: pointer;
+    width: 14px;
+    height: 16px;
+}
+
+.reorder-list-item {
+    left: -19px;
+    cursor: ns-resize;
+    width: 13px;
+    height: 20px;
+}
+
+.superlist-item-wrapper.ui-sortable-helper {
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    background: white;
+}
+
+.superlist-item-wrapper.ui-sortable-helper .remove-list-item {
+    display: none;
+}
+
+.superlist-item-wrapper:last-child:hover span {
+    display: none;
+}
+
+.superlist-item-wrapper:last-child:hover li {
+    list-style: initial;
+}
