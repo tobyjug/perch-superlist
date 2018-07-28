@@ -1,14 +1,4 @@
 $(document).ready(function() {
-    // bind sortable on mouse enter, as
-    // perch's js scripts are loaded via async
-    $('.superlist').mouseenter(function() {
-        $(".superlist").sortable({
-            handle: ".reorder-list-item",
-            axis: 'y',
-            containment: '.superlist',
-            items: "> div:not(:last-child)"
-        });
-    });
 
     // if in a list item with existing data, pressing enter
     // will focus the next element
@@ -68,4 +58,11 @@ $(document).ready(function() {
     $('.field-wrap').on('click', '.remove-list-item', function() {
         $(this).parent().remove();
     })
+
+    $(".superlist").sortable({
+        handle: ".reorder-list-item",
+        axis: 'y',
+        containment: '.superlist',
+        items: "> div:not(:last-child)"
+    });
 });

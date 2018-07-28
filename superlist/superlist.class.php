@@ -26,8 +26,8 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
             foreach ($vals as $key => $value) {
                 $inputs .= '<div class="superlist-item-wrapper">';
                 $inputs .= '<li class="superlist-item">';
-                $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/list/img/delete.svg" alt="Remove"></span>';
-                $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/list/img/reorder.svg" alt="Reorder"></span>';
+                $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/delete.svg" alt="Remove"></span>';
+                $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/reorder.svg" alt="Reorder"></span>';
                 $inputs .= $this->Form->text($id . '_' . $index, $vals[$index], $class, false, 'text', 'autocomplete="off" placeholder="Add item"');
                 $inputs .= '</li>';
                 $inputs .= '</div>';
@@ -40,8 +40,8 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
         // add empty input to end of list for data entry
         $inputs .= '<div class="superlist-item-wrapper">';
         $inputs .= '<li>';
-        $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/list/img/delete.svg" alt="Remove"></span>';
-        $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/list/img/reorder.svg" alt="Reorder"></span>';
+        $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/delete.svg" alt="Remove"></span>';
+        $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/reorder.svg" alt="Reorder"></span>';
         $inputs .= $this->Form->text($id . '_next', '', 'superlist-next superlist-input', false, 'text', 'placeholder="' . $placeholderText . '" autocomplete="off" ');
         $inputs .= '</li>';
         $inputs .= '</div>';
@@ -125,8 +125,9 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
     public function add_page_resources()
     {
         $Perch = Perch::fetch();
-        $Perch->add_css(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/superlist.css');
-        $Perch->add_javascript(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/superlist.js');
+        $Perch->add_css(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/css/superlist.css');
+        $Perch->add_javascript(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/js/jquery-ui.min.js');
+        $Perch->add_javascript(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/js/superlist.js');
     }
 }
 ?>
