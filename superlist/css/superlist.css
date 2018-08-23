@@ -70,5 +70,5 @@
 }
 
 .superlist-item-wrapper:last-child:hover li {
-    list-style: initial;
+    list-style: inherit;
 }
