@@ -48,5 +48,7 @@ This will output
 ```
 
 ## Roadmap
+- ~~Switch from jQuery to Vue for core functionality~~
+- Switch to vue for drag and drop
+- Navigate list using ⬆️ and ⬇️ arrows
 - Nested lists
-- Switch from jQuery to Vue
