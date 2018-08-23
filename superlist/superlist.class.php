@@ -1,50 +1,28 @@
 <?php
-
 class PerchFieldType_superlist extends PerchAPI_FieldType
 {
     // output the form fields for the edit page
     public function render_inputs($details = array())
     {
         $id = $this->Tag->input_id();
-
         $class = 'superlist-input';
-
         $listType = ($this->Tag->ol() === 'true') ? 'ol' : 'ul';
-
         $inputs = "<{$listType} class='superlist'>";
         $index = 0;
 
         if (isset($details[$id]) && $details[$id] != '') {
             $vals = $details[$id]['content'];
         }
+        $values = json_encode($vals);
+        $perch_loginpath = $_SERVER['HTTP_HOST'] . '/' .  PERCH_LOGINPATH;
 
-        $placeholderText = 'Add a list item...';
+        $str = <<<EOD
+<div id="superlist">
+    <superlist :items='$values' inputid="$id" perchpath="$perch_loginpath"></superlist>
+</div>
+EOD;
 
-        // check if there are existing list items
-        if (!empty($vals)) {
-            // build list of list item inputs with existing values
-            foreach ($vals as $key => $value) {
-                $inputs .= '<div class="superlist-item-wrapper">';
-                $inputs .= '<li class="superlist-item">';
-                $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/delete.svg" alt="Remove"></span>';
-                $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/reorder.svg" alt="Reorder"></span>';
-                $inputs .= $this->Form->text($id . '_' . $index, $vals[$index], $class, false, 'text', 'autocomplete="off" placeholder="Add item"');
-                $inputs .= '</li>';
-                $inputs .= '</div>';
-                $index = ++$index;
-            }
-
-            $placeholderText = 'Add another list item...';
-        }
-
-        // add empty input to end of list for data entry
-        $inputs .= '<div class="superlist-item-wrapper">';
-        $inputs .= '<li>';
-        $inputs .= '<span class="remove-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/delete.svg" alt="Remove"></span>';
-        $inputs .= '<span class="reorder-list-item"><img src="'.PERCH_LOGINPATH.'/addons/fieldtypes/superlist/img/reorder.svg" alt="Reorder"></span>';
-        $inputs .= $this->Form->text($id . '_next', '', 'superlist-next superlist-input', false, 'text', 'placeholder="' . $placeholderText . '" autocomplete="off" ');
-        $inputs .= '</li>';
-        $inputs .= '</div>';
+        $inputs .= $str;
         $inputs .= "</{$listType}>";
         $inputs .= $this->Form->hidden($id, 'superlist');
 
@@ -127,6 +105,7 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
         $Perch = Perch::fetch();
         $Perch->add_css(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/css/superlist.css');
         $Perch->add_javascript(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/js/jquery-ui.min.js');
+        $Perch->add_javascript('https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js');
         $Perch->add_javascript(PERCH_LOGINPATH . '/addons/fieldtypes/superlist/js/superlist.js');
     }
 }

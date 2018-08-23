@@ -1,68 +1,73 @@
 $(document).ready(function() {
-
-    // if in a list item with existing data, pressing enter
-    // will focus the next element
-    $('.superlist').on('keypress', '.superlist-input', function(e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            $this = $(this);
-            $this.parents('.superlist-item-wrapper')
-                 .next('.superlist-item-wrapper')
-                 .find('input')
-                 .focus()
-                 .select();
-        }
-    });
-
-    // press enter to add new item
-    $('.superlist').on('keypress', '.superlist-next', function(e) {
-        if (e.which == 13) {
-            e.preventDefault();
-
-            $this = $(this);
-
-            if ($('.superlist-item').length > 0) {
-                idString = $('.superlist-item').last().find('input').attr('id');
-            } else {
-                idString = $this.attr('id');
-            }
-
-            idSringParts = idString.split('list_');
-            idPreString = idSringParts[0];
-            nextIdNumber = parseInt(idSringParts[1]);
-
-            if (isNaN(nextIdNumber)) {
-                var nextIdNumber = 0;
-            } else {
-                nextIdNumber++;
-            }
-
-            $this.parents('.superlist-item-wrapper')
-                 .clone()
-                 .insertBefore($this.parents('.superlist-item-wrapper'))
-                 .find('li')
-                 .addClass('superlist-item')
-                 .find('input')
-                 .addClass('superlist-input')
-                 .removeClass('superlist-next')
-                 .attr({
-                    id: idPreString + 'list_' + nextIdNumber,
-                    name: idPreString + 'list_' + nextIdNumber
-            });
-
-            $this.val('');
-        }
-    });
-
-    // remove list item by clickin the X icon
-    $('.field-wrap').on('click', '.remove-list-item', function() {
-        $(this).parent().remove();
-    })
-
     $(".superlist").sortable({
         handle: ".reorder-list-item",
         axis: 'y',
-        containment: '.superlist',
-        items: "> div:not(:last-child)"
+        containment: '.superlist-items',
+        items: ".superlist-item-wrapper:not(:last-child)"
     });
 });
+
+Vue.component('superlist', {
+    props: ['items', 'inputid', 'perchpath'],
+
+    template: '<div class="superlist-items"><div class="superlist-item-wrapper" v-for="(item, index) in listItems"><li class="superlist-item"><span @click="remove(index)" class="remove-list-item"><img :src="removeImgpath" alt="Remove"></span><span class="reorder-list-item"><img :src="reorderImgpath" alt="Reorder"></span><input type="text" :id="theId + index" :name="theId + index" @keypress.enter.prevent="handleKeypress" v-model="listItems[index]" :placeholder="placeholder(index)" /></li></div></div>',
+
+    data: function data() {
+        return {
+            theId: this.inputid + '_',
+            listItems: this.items,
+            removeImgpath: '//' + this.perchpath + '/addons/fieldtypes/superlist/img/delete.svg',
+            reorderImgpath: '//' + this.perchpath + '/addons/fieldtypes/superlist/img/reorder.svg'
+        }
+    },
+    computed: {
+        placeholdertext : function() {
+            return 'Add text'
+        }
+    },
+    mounted: function() {
+        this.listItems.push('');
+    },
+    methods: {
+        add: function(){
+            this.listItems.push('');
+        },
+        remove: function(index){
+            itemToRemove = this.listItems.indexOf(index);
+            this.listItems.splice(index, 1);
+        },
+        handleKeypress: function(event) {
+            var key = event.which;
+
+            if (key === 13) {
+                thisId = event.target.id
+                idPos = thisId.lastIndexOf('_') + 1;
+                idString = thisId.substring(0, idPos);
+                idNo = thisId.substring(idPos);
+                nextIdNo = parseInt(idNo) + 1;
+                nextIdToSelect = idString + nextIdNo;
+
+                nextIdToFocus = document.getElementById(nextIdToSelect);
+
+                if (nextIdToFocus == null) {
+                    this.listItems.push('');
+                }
+
+                this.$nextTick(function() {
+                    document.getElementById(nextIdToSelect).focus();
+                });
+            }
+        },
+        placeholder: function(index) {
+            if (index === this.listItems.length - 1) {
+                return 'Add another item...'
+            }
+
+            return 'Add item'
+        }
+    }
+});
+
+new Vue ({
+    el: '#superlist',
+})
