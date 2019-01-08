@@ -12,6 +12,8 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
 
         if (isset($details[$id]) && $details[$id] != '') {
             $vals = $details[$id]['content'];
+        } else {
+            $vals = [];
         }
         $values = json_encode($vals);
         $perch_loginpath = $_SERVER['HTTP_HOST'] . '/' .  PERCH_LOGINPATH;
