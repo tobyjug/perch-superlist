@@ -19,7 +19,7 @@ class PerchFieldType_superlist extends PerchAPI_FieldType
         $perch_loginpath = $_SERVER['HTTP_HOST'] . '/' .  PERCH_LOGINPATH;
 
         $str = <<<EOD
-<div id="superlist">
+<div>
     <superlist :items='$values' inputid="$id" perchpath="$perch_loginpath"></superlist>
 </div>
 EOD;

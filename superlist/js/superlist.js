@@ -69,5 +69,5 @@ Vue.component('superlist', {
 });
 
 new Vue ({
-    el: '#superlist',
+    el: '#main-panel',
 })
