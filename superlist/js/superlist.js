@@ -2,7 +2,7 @@ $(document).ready(function() {
     $(".superlist").sortable({
         handle: ".reorder-list-item",
         axis: 'y',
-        containment: '.superlist-items',
+        containment: 'parent',
         items: ".superlist-item-wrapper:not(:last-child)"
     });
 });
